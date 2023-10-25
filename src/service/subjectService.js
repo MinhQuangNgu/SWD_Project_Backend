@@ -4,7 +4,7 @@ class subjectService {
     async createNewSubject(req, res) {
         try {
             const { name, code, description, manager_id, gitlab_config, status } = req.body;
-            const query = `insert into subject (name,code,description,manager_id,status_id,gitlab_config,date_create)
+            const query = `insert into subject (name,code,description,manager_id,status,gitlab_config,date_create)
             values (?,?,?,?,?,?,?)`;
             const currentDatetime = new Date().toISOString().slice(0, 19).replace('T', ' ');
             const value = [name, code, description, manager_id, status, gitlab_config, currentDatetime];
@@ -25,6 +25,7 @@ class subjectService {
             });
         }
         catch (err) {
+            console.log(err)
             return res.status(500).json({ message: err.toString() });
         }
     }
@@ -65,7 +66,7 @@ class subjectService {
             const { name, code, description, manager_id, gitlab_config, status, labels } = req.body;
             const query = `
                     UPDATE subject 
-                    SET name=?, code=?, description=?, manager_id=?, status_id=?, gitlab_config=?
+                    SET name=?, code=?, description=?, manager_id=?, status=?, gitlab_config=?
                     WHERE id=?`;
             const values = [name, code, description, manager_id, status, gitlab_config, id];
             await subjectResponsitory.updateSubject(query, values);
@@ -90,7 +91,7 @@ class subjectService {
         try {
             const { id } = req.params;
             const result = await subjectResponsitory.getSubject(id);
-            await subjectResponsitory.updateSubjectStatus(result[0]?.id, result[0].status_id === 1 ? 2 : 1);
+            await subjectResponsitory.updateSubjectStatus(result[0]?.id, result[0].status === 1 ? false : true);
             return res.status(200).json({ message: "Change status successfully" });
         }
         catch (err) {

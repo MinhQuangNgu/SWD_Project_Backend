@@ -66,8 +66,7 @@ class subjectResponsitory{
     getAllSubjects = () => {
         return new Promise((d,e) => {
             connection.query(
-                `SELECT subject.*, issue_setting.name as "status_name",account.email as "email",account.username FROM subject
-                LEFT JOIN issue_setting ON subject.status_id = issue_setting.id 
+                `SELECT subject.*,account.email as "email",account.username FROM subject
                 JOIN account ON subject.manager_id = account.id`,
                 function (err, results) {
                     if (err) {
@@ -96,7 +95,7 @@ class subjectResponsitory{
 
     updateSubjectStatus = (id,resultId) => {
         return new Promise((d,e) => {
-            connection.query(`UPDATE subject set status_id=${resultId} where id=${id}`, function (err) {
+            connection.query(`UPDATE subject set status=${resultId} where id=${id}`, function (err) {
                 if (err) {
                     e(err)
                 }
