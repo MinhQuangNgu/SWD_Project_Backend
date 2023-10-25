@@ -1,0 +1,111 @@
+const connection = require("../database/mysql");
+
+class subjectResponsitory{
+    createNewSubject = (query,value) => {
+        return new Promise((done,error) => {
+            connection.query(
+                query,
+                value,
+                function (err, results) {
+                    if (err) {
+                        error(err);
+                    }
+                    else{
+                        done(results);
+                    }
+                    // const insertId = results.insertId;
+                    // const newQuery = 'insert into issue (title,description,type_id,subject_id,status_id) values ?';
+                    // let newValue = [];
+                    // if (issues) {
+                    //     issues?.forEach(item => {
+                    //         const newItem = [item?.title, item?.description, item?.label, insertId, item?.status?.id];
+                    //         newValue.push(newItem);
+                    //     });
+                    // }
+                    // connection.query(newQuery, [newValue], function (err) {
+                    //     if (err) {
+                    //         return res.status(400).json({ message: err.toString() });
+                    //     }
+                    //     return res.status(200).json({ message: "Created subject successfully!" });
+                    // });
+                    
+                }
+            );
+        })
+    }
+
+    deleteSubject = (id) => {
+        return new Promise((d,e) => {
+            connection.query(`DELETE FROM subject WHERE id=${id}`, function (err) {
+                if (err) {
+                    e(err);
+                }
+                else{
+                    d()
+                }
+            });
+        })
+    }
+
+    getSubject = (id) => {
+        return new Promise((d,e) => {
+            connection.query(
+                `SELECT * from subject where id=${id}`,
+                function (err, subject) {
+                    if (err) {
+                        e(err);
+                    }
+                    else{
+                        d(subject);
+                    }
+                }
+            );
+        })
+    }
+
+    getAllSubjects = () => {
+        return new Promise((d,e) => {
+            connection.query(
+                `SELECT subject.*, issue_setting.name as "status_name",account.email as "email",account.username FROM subject
+                LEFT JOIN issue_setting ON subject.status_id = issue_setting.id 
+                JOIN account ON subject.manager_id = account.id`,
+                function (err, results) {
+                    if (err) {
+                        e(err);
+                    }
+                    else{
+                        d(results);
+                    }
+                }
+            );
+        })
+    }
+
+    updateSubject = (query,values) => {
+        return new Promise((d,e) => {
+            connection.query(query, values, function (err) {
+                if (err) {
+                    e(err)
+                }
+                else{
+                    d()
+                }
+            });
+        })
+    }
+
+    updateSubjectStatus = (id,resultId) => {
+        return new Promise((d,e) => {
+            connection.query(`UPDATE subject set status_id=${resultId} where id=${id}`, function (err) {
+                if (err) {
+                    e(err)
+                }
+                else{
+                    d()
+                }
+            })
+        })
+    }
+}
+
+module.exports = new subjectResponsitory();
