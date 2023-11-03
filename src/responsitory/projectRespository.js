@@ -95,7 +95,21 @@ class projectRepository{
             );
         })
     }
-
+    getAllClass = () => {
+        return new Promise((d,e) => {
+            connection.query(
+                `SELECT * FROM class;`,
+                function (err, result) {
+                    if (err) {
+                        e(err);
+                    }
+                    else{
+                        d(result);
+                    }
+                }
+            );
+        })
+    }
     updateProject = (query,values) => {
         return new Promise((d,e) => {
             connection.query(query, values, function (err) {

@@ -27,6 +27,30 @@ class projectService {
             return res.status(500).json({ message: err.toString() });
         }
     }
+    async getAllProject(req, res) {
+        try {
+            const project = await projectRepository.getAllProject();
+            return res.status(200).json({
+                message:"getAll successfully",
+                project: project
+            });
+        }
+        catch (err) {
+            return res.status(500).json({ message: err.toString() });
+        }
+    }
+    async getAllClass(req, res) {
+        try {
+            const project = await projectRepository.getAllClass();
+            return res.status(200).json({
+                message:"getAll successfully",
+                project: project
+            });
+        }
+        catch (err) {
+            return res.status(500).json({ message: err.toString() });
+        }
+    }
 
     async setStatusProject(req, res) {
         try {
