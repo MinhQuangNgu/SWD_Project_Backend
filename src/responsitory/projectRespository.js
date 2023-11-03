@@ -1,8 +1,8 @@
 const connection = require("../database/mysql");
 
-class projectRepository{
-    createNewProject = (query,value) => {
-        return new Promise((done,error) => {
+class projectRepository {
+    createNewProject = (query, value) => {
+        return new Promise((done, error) => {
             connection.query(
                 query,
                 value,
@@ -10,17 +10,17 @@ class projectRepository{
                     if (err) {
                         error(err);
                     }
-                    else{
+                    else {
                         done(results);
                     }
-                    
+
                 }
             );
         })
     }
 
     setStatusProject = (id) => {
-        return new Promise((d,e) => {
+        return new Promise((d, e) => {
             connection.query(`
             UPDATE project
             SET status_id = CASE
@@ -32,7 +32,7 @@ class projectRepository{
                 if (err) {
                     e(err);
                 }
-                else{
+                else {
                     d()
                 }
             });
@@ -40,7 +40,7 @@ class projectRepository{
     }
 
     getProject = (id) => {
-        return new Promise((d,e) => {
+        return new Promise((d, e) => {
             connection.query(
                 `SELECT
                 p.*,
@@ -60,7 +60,7 @@ class projectRepository{
                     if (err) {
                         e(err);
                     }
-                    else{
+                    else {
                         d(result);
                     }
                 }
@@ -69,7 +69,7 @@ class projectRepository{
     }
 
     getAllProject = () => {
-        return new Promise((d,e) => {
+        return new Promise((d, e) => {
             connection.query(
                 `SELECT
                 p.*,
@@ -88,7 +88,7 @@ class projectRepository{
                     if (err) {
                         e(err);
                     }
-                    else{
+                    else {
                         d(result);
                     }
                 }
@@ -96,27 +96,87 @@ class projectRepository{
         })
     }
     getAllClass = () => {
-        return new Promise((d,e) => {
+        return new Promise((d, e) => {
             connection.query(
                 `SELECT * FROM class;`,
                 function (err, result) {
                     if (err) {
                         e(err);
                     }
-                    else{
+                    else {
                         d(result);
                     }
                 }
             );
         })
     }
-    updateProject = (query,values) => {
-        return new Promise((d,e) => {
+    getAllTeacher = () => {
+        return new Promise((d, e) => {
+            connection.query(
+                `SELECT
+                a.*,
+                ss.role
+                FROM account a
+                LEFT JOIN system_setting ss ON a.role_id = ss.id
+                where ss.role = 'teacher'`,
+                function (err, result) {
+                    if (err) {
+                        e(err);
+                    }
+                    else {
+                        d(result);
+                    }
+                }
+            );
+        })
+    }
+    getAllManager = () => {
+        return new Promise((d, e) => {
+            connection.query(
+                `SELECT
+                a.*,
+                ss.role
+                FROM account a
+                LEFT JOIN system_setting ss ON a.role_id = ss.id
+                where ss.role = 'manager'`,
+                function (err, result) {
+                    if (err) {
+                        e(err);
+                    }
+                    else {
+                        d(result);
+                    }
+                }
+            );
+        })
+    }
+    getAllStudent= () => {
+        return new Promise((d, e) => {
+            connection.query(
+                `SELECT
+                a.*,
+                ss.role
+                FROM account a
+                LEFT JOIN system_setting ss ON a.role_id = ss.id
+                where ss.role = 'student'`,
+                function (err, result) {
+                    if (err) {
+                        e(err);
+                    }
+                    else {
+                        d(result);
+                    }
+                }
+            );
+        })
+    }
+    updateProject = (query, values) => {
+        return new Promise((d, e) => {
             connection.query(query, values, function (err) {
                 if (err) {
                     e(err)
                 }
-                else{
+                else {
                     d()
                 }
             });
