@@ -2,11 +2,11 @@ const projectRepository = require('../responsitory/projectRespository');
 class projectService {
     async createNewProject(req, res) {
         try {
-            const { group_name, project_code, project_name, description, status_id, manager_id,class_id,team_leader_id,milestone_id } = req.body;
+            const { group_name, project_code, project_name, description, status_id, manager_id, class_id, team_leader_id, milestone_id } = req.body;
             const query = `insert into Project (group_name,project_code,project_name,description,status_id,manager_id,class_id,team_leader_id,milestone_id,date_create)
             values (?,?,?,?,?,?,?,?,?,?)`;
             const currentDatetime = new Date().toISOString().slice(0, 19).replace('T', ' ');
-            const value = [ group_name, project_code, project_name, description, status_id, manager_id,class_id,team_leader_id,milestone_id, currentDatetime];
+            const value = [group_name, project_code, project_name, description, status_id, manager_id, class_id, team_leader_id, milestone_id, currentDatetime];
             await projectRepository.createNewProject(query, value);
             return res.status(200).json({ message: "Created Project successfully!" });
         }
@@ -19,7 +19,7 @@ class projectService {
         try {
             const project = await projectRepository.getAllProject();
             return res.status(200).json({
-                message:"getAll successfully",
+                message: "getAll successfully",
                 project: project
             });
         }
@@ -27,7 +27,78 @@ class projectService {
             return res.status(500).json({ message: err.toString() });
         }
     }
-
+    async getAllProject(req, res) {
+        try {
+            const project = await projectRepository.getAllProject();
+            return res.status(200).json({
+                message: "getAll successfully",
+                project: project
+            });
+        }
+        catch (err) {
+            return res.status(500).json({ message: err.toString() });
+        }
+    }
+    async getAllClass(req, res) {
+        try {
+            const project = await projectRepository.getAllClass();
+            return res.status(200).json({
+                message: "getAll successfully",
+                project: project
+            });
+        }
+        catch (err) {
+            return res.status(500).json({ message: err.toString() });
+        }
+    }
+    async getAllMileStone(req, res) {
+        try {
+            const project = await projectRepository.getAllMileStone();
+            return res.status(200).json({
+                message: "getAll successfully",
+                project: project
+            });
+        }
+        catch (err) {
+            return res.status(500).json({ message: err.toString() });
+        }
+    }
+    async getAllTeacher(req, res) {
+        try {
+            const project = await projectRepository.getAllTeacher();
+            return res.status(200).json({
+                message: "getAll successfully",
+                project: project
+            });
+        }
+        catch (err) {
+            return res.status(500).json({ message: err.toString() });
+        }
+    }
+    async getAllManager(req, res) {
+        try {
+            const project = await projectRepository.getAllManager();
+            return res.status(200).json({
+                message: "getAll successfully",
+                project: project
+            });
+        }
+        catch (err) {
+            return res.status(500).json({ message: err.toString() });
+        }
+    }
+    async getAllStudent(req, res) {
+        try {
+            const project = await projectRepository.getAllStudent();
+            return res.status(200).json({
+                message: "getAll successfully",
+                project: project
+            });
+        }
+        catch (err) {
+            return res.status(500).json({ message: err.toString() });
+        }
+    }
     async setStatusProject(req, res) {
         try {
             const { id } = req.params;
@@ -47,7 +118,7 @@ class projectService {
             const { id } = req.params;
             const project = await projectRepository.getProject(id);
             return res.status(200).json({
-                message:"get one successfully",
+                message: "get one successfully",
                 project: project
             });
         }
@@ -60,13 +131,13 @@ class projectService {
         try {
             console.log("hello");
             const { id } = req.params;
-            const { group_name, project_code, project_name, description, manager_id,class_id,team_leader_id} = req.body;
+            const { group_name, project_code, project_name, description, manager_id, class_id, team_leader_id } = req.body;
             const query = `
                     UPDATE project 
                     SET group_name=?, project_code=?, project_name=?, description=?, manager_id=?, class_id=?,team_leader_id=?
                     WHERE id=?`;
-            const values = [group_name, project_code, project_name, description, manager_id,class_id,team_leader_id, id];
-            await projectController.updateProject(query, values);
+            const values = [group_name, project_code, project_name, description, manager_id, class_id, team_leader_id, id];
+            await projectRepository.updateProject(query, values);
             return res.status(200).json({ message: "Updated successfully" });
         }
         catch (err) {
