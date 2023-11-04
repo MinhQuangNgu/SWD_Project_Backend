@@ -110,6 +110,21 @@ class projectRepository {
             );
         })
     }
+    getAllMileStone = () => {
+        return new Promise((d, e) => {
+            connection.query(
+                `SELECT * FROM milestone;`,
+                function (err, result) {
+                    if (err) {
+                        e(err);
+                    }
+                    else {
+                        d(result);
+                    }
+                }
+            );
+        })
+    }
     getAllTeacher = () => {
         return new Promise((d, e) => {
             connection.query(

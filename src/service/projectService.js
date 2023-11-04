@@ -51,6 +51,18 @@ class projectService {
             return res.status(500).json({ message: err.toString() });
         }
     }
+    async getAllMileStone(req, res) {
+        try {
+            const project = await projectRepository.getAllMileStone();
+            return res.status(200).json({
+                message: "getAll successfully",
+                project: project
+            });
+        }
+        catch (err) {
+            return res.status(500).json({ message: err.toString() });
+        }
+    }
     async getAllTeacher(req, res) {
         try {
             const project = await projectRepository.getAllTeacher();
