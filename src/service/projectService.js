@@ -137,7 +137,7 @@ class projectService {
                     SET group_name=?, project_code=?, project_name=?, description=?, manager_id=?, class_id=?,team_leader_id=?
                     WHERE id=?`;
             const values = [group_name, project_code, project_name, description, manager_id, class_id, team_leader_id, id];
-            await projectController.updateProject(query, values);
+            await projectRepository.updateProject(query, values);
             return res.status(200).json({ message: "Updated successfully" });
         }
         catch (err) {
