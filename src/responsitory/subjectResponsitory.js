@@ -1,4 +1,4 @@
-const connection = require("../database/mysql");
+const connection = require("../dbconfig/mysql");
 
 class subjectResponsitory{
     createNewSubject = (query,value) => {
@@ -47,10 +47,10 @@ class subjectResponsitory{
         })
     }
 
-    getSubject = (id) => {
+    getSubject = (queryString) => {
         return new Promise((d,e) => {
             connection.query(
-                `SELECT * from subject where id=${id}`,
+                queryString,
                 function (err, subject) {
                     if (err) {
                         e(err);
@@ -63,11 +63,10 @@ class subjectResponsitory{
         })
     }
 
-    getAllSubjects = () => {
+    getAllSubjects = (queryString) => {
         return new Promise((d,e) => {
             connection.query(
-                `SELECT subject.*,account.email as "email",account.username FROM subject
-                JOIN account ON subject.manager_id = account.id`,
+                queryString,
                 function (err, results) {
                     if (err) {
                         e(err);

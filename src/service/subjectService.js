@@ -19,7 +19,14 @@ class subjectService {
 
     async getAllSubject(req, res) {
         try {
-            const results = await subjectResponsitory.getAllSubjects();
+            const sort = req.query.sort || '';
+            let queryString = `SELECT subject.*,account.email as "email",account.username FROM subject
+            JOIN account ON subject.manager_id = account.id`
+            let sortby = sort.split("-");
+            if(sortby.length == 2){
+                queryString += " order by " + sortby[0] + " " + sortby[1];
+            }
+            const results = await subjectResponsitory.getAllSubjects(queryString);
             return res.status(200).json({
                 subjects: results
             });
@@ -47,7 +54,8 @@ class subjectService {
     async getSubject(req, res) {
         try {
             const { id } = req.params;
-            const subject = await subjectResponsitory.getSubject(id);
+            let queryString = `SELECT * from subject where id=${id}`
+            const subject = await subjectResponsitory.getSubject(queryString);
             const issueSettings = await issueSettingsResponsitory.getIssuesSettings(id);
             return res.status(200).json({
                 subject: subject,
@@ -90,7 +98,8 @@ class subjectService {
     async changeStatusSubject(req, res) {
         try {
             const { id } = req.params;
-            const result = await subjectResponsitory.getSubject(id);
+            let queryString = `SELECT * from subject where id=${id}`
+            const result = await subjectResponsitory.getSubject(queryString);
             await subjectResponsitory.updateSubjectStatus(result[0]?.id, result[0].status === 1 ? false : true);
             return res.status(200).json({ message: "Change status successfully" });
         }

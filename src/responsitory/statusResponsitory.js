@@ -1,4 +1,4 @@
-const connection = require("../database/mysql");
+const connection = require("../dbconfig/mysql");
 
 class statusResponsitory{
     getAllStatus = () => {
