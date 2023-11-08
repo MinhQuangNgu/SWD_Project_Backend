@@ -22,7 +22,7 @@ class subjectService {
             const sort = req.query.sort || '';
             const search = req.query.search || "";
             let queryString = `SELECT subject.*,account.email as "email",account.username FROM subject
-            JOIN account ON subject.manager_id = account.id where subject.name like '%${search}%' or subject.code  like '%${search}%'`
+            JOIN account ON subject.manager_id = account.id where subject.name like '%${search}%' or subject.code like '%${search}%'`
             let sortby = sort.split("-");
             if(sortby.length == 2){
                 queryString += " order by " + sortby[0] + " " + sortby[1];
