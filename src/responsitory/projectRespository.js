@@ -23,10 +23,10 @@ class projectRepository {
         return new Promise((d, e) => {
             connection.query(`
             UPDATE project
-            SET status_id = CASE
-                WHEN status_id = 1 THEN 0
-                WHEN status_id = 0 THEN 1
-                ELSE status_id
+            SET status = CASE
+                WHEN status = 1 THEN 0
+                WHEN status = 0 THEN 1
+                ELSE status
             END
             WHERE id = ${id};`, function (err) {
                 if (err) {

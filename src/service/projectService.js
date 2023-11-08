@@ -3,7 +3,7 @@ class projectService {
     async createNewProject(req, res) {
         try {
             const { group_name, project_code, project_name, description, status_id, manager_id, class_id, team_leader_id, milestone_id } = req.body;
-            const query = `insert into Project (group_name,project_code,project_name,description,status_id,manager_id,class_id,team_leader_id,milestone_id,date_create)
+            const query = `insert into Project (group_name,project_code,project_name,description,status,manager_id,class_id,team_leader_id,milestone_id,date_create)
             values (?,?,?,?,?,?,?,?,?,?)`;
             const currentDatetime = new Date().toISOString().slice(0, 19).replace('T', ' ');
             const value = [group_name, project_code, project_name, description, status_id, manager_id, class_id, team_leader_id, milestone_id, currentDatetime];
